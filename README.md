@@ -1,5 +1,6 @@
 # dotfiles
-Dotfiles for my development environment
+### Dotfiles for my development environment
+### neovim configured for scala development
 
 - Install tmux plugin manager from [here](https://github.com/tmux-plugins/tpm)
 - Install fish plugin manager fisher from [here](https://github.com/jorgebucaran/fisher)
