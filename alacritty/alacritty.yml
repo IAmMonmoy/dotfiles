@@ -150,3 +150,6 @@ shell:
 
 # Startup directory, unset or None for home directory
 working_directory: None
+
+key_bindings:
+  - { key: E,        mods: Alt,     chars: "\x1be"                       }
