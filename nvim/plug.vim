@@ -36,26 +36,29 @@ if has("nvim")
   Plug 'ryanoasis/vim-devicons'
   Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
-  Plug 'windwp/nvim-autopairs'
+  Plug 'jiangmiao/auto-pairs'
 "  Plug 'nikvdp/neomux'
-  Plug 'tpope/vim-ragtag'
+"  Plug 'tpope/vim-ragtag'
   Plug 'tpope/vim-surround'
+  Plug 'tpope/vim-repeat'
 "  Plug 'tpope/vim-unimpaired'
 "  Plug 'tpope/vim-eunuch'
   Plug 'tomtom/tcomment_vim'
+"  Stylist bottombar
   Plug 'nvim-lualine/lualine.nvim'
 "  Plug 'tommcdo/vim-lion'
 "  Plug 'sickill/vim-pasta'
   Plug 'unblevable/quick-scope'
-"  Plug 'tpope/vim-repeat'
 "  Plug 'airblade/vim-rooter'
   Plug 'psliwka/vim-smoothie'
 "  Plug 'AndrewRadev/splitjoin.vim'
 "  Plug 'wellle/targets.vim'
 "  Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 "  Plug 'folke/which-key.nvim'
-  Plug 'mhinz/vim-startify'
-
+"  Plug 'mhinz/vim-startify'
+"  Typescript
+  Plug 'jose-elias-alvarez/null-ls.nvim'
+  Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
 
 
   "Browser plugin

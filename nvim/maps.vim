@@ -15,7 +15,6 @@ nnoremap x "_x
 nnoremap + <C-a>
 nnoremap - <C-x>
 
-" Delete a word backwards
 "nnoremap dw vb"_d
 
 " Select all
@@ -44,19 +43,10 @@ nnoremap <leader>+ :exe "resize " . (winheight(0) * 3/2)<CR>
 nnoremap <leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
 " Move window
 nmap <Space> <C-w>w
-map s<left> <C-w>h
-map s<up> <C-w>k
-map s<down> <C-w>j
-map s<right> <C-w>l
 map sh <C-w>h
 map sk <C-w>k
 map sj <C-w>j
 map sl <C-w>l
-" Resize window
-nmap <C-w><left> <C-w><
-nmap <C-w><right> <C-w>>
-nmap <C-w><up> <C-w>+
-nmap <C-w><down> <C-w>-
 
 " floaterm config
 nnoremap   <silent>    tn   :FloatermNew<CR>
