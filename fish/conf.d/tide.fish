@@ -1,4 +1,3 @@
-set -g tide_chruby_bg_color CC342D
 set -g tide_chruby_color white
 set -g tide_cmd_duration_bg_color C4A000
 set -g tide_cmd_duration_color 000000
@@ -58,3 +57,4 @@ set -g tide_vi_mode_icon_default DEFAULT
 set -g tide_vi_mode_icon_replace REPLACE
 set -g tide_vi_mode_icon_visual VISUAL
 set -g tide_virtual_env_bg_color 444444
+
