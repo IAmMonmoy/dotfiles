@@ -21,6 +21,10 @@ if has("nvim")
   Plug 'kyazdani42/nvim-web-devicons'
   Plug 'onsails/lspkind-nvim'
 
+  " vim colorscheme
+  Plug 'EdenEast/nightfox.nvim'
+  Plug 'tomasiser/vim-code-dark'
+  
   " Telescope specific
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
@@ -29,7 +33,7 @@ if has("nvim")
   Plug 'lifepillar/vim-solarized8'
   Plug 'voldikss/vim-floaterm'
   Plug 'vim-test/vim-test'
-  "
+  
   "Nerdtree specific
   Plug 'preservim/nerdtree'
   Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -59,10 +63,8 @@ if has("nvim")
 "  Typescript
   Plug 'jose-elias-alvarez/null-ls.nvim'
   Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
-
-
-  "Browser plugin
-  "Plug 'glacambre/firenvim', { 'do': { _ -> firenvim"install(0) } }
 endif
 
 call plug#end()
+
+colorscheme nightfox

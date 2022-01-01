@@ -1,5 +1,6 @@
 set nocompatible 
 set number
+set relativenumber
 syntax enable
 set autoindent
 set nobackup
@@ -26,11 +27,6 @@ set wildignore=.git,*/node_modules/*,*/target/*,.metals,.bloop,.ammonite
 " Turn off paste mode when leaving insert
 autocmd InsertLeave * set nopaste
 set formatoptions+=r
-set termguicolors
 
 runtime ./plug.vim
 runtime ./maps.vim
-
-
-set background=dark
-autocmd vimenter * ++nested colorscheme solarized8
