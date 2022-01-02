@@ -108,3 +108,6 @@ nnoremap <Leader>sv :source $MYVIMRC<CR>
 nnoremap Y "+y
 vnoremap Y "+y
 nnoremap yY ^"+y$
+
+nnoremap <leader>S :set spell!<CR>
+inoremap <leader>S <C-O>:set spell!<CR>

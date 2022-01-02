@@ -8,6 +8,9 @@ set shell=fish
 set incsearch
 set noswapfile
 set mouse=a
+set spelllang=en
+set spellsuggest=best,10
+
 "set autochdir
 
 " Don't redraw while executing macros (good performance config)
