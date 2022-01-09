@@ -102,6 +102,7 @@ nmap <silent> t<C-g> :TestVisit<CR>
 
 " source vim
 nnoremap <Leader>sv :source $MYVIMRC<CR>
+nnoremap <Leader>mb :MetalsImportBuild<CR>
 
 
 " copy to clipboard
