@@ -24,7 +24,7 @@ window:
   #  lines: 38
 
 # Make background slightly transparent
-background_opacity: 0.9
+window.opacity: 0.5
 
 cursor:
   # Block Underline or Beam
@@ -153,3 +153,6 @@ working_directory: None
 
 key_bindings:
   - { key: E,        mods: Alt,     chars: "\x1be"                       }
+  - { key: N,        mods: Command, command: { program: "open", args: ["-n", "/Applications/Alacritty.app"] } }
+
+
