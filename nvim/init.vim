@@ -10,6 +10,7 @@ set noswapfile
 set mouse=a
 set spelllang=en
 set spellsuggest=best,10
+set wrap linebreak
 
 "set autochdir
 

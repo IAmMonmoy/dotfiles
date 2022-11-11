@@ -13,14 +13,13 @@ end
 -- VARIABLES ---------------------
 ----------------------------------
 -- nvim-metals
-g["metals_server_version"] = "0.10.7+119-90f26c65-SNAPSHOT"
 
 ----------------------------------
 -- OPTIONS -----------------------
 ----------------------------------
 -- global
 vim.opt_global.completeopt = { "menu", "noinsert", "noselect" }
-vim.opt_global.shortmess:remove("F"):append("c")
+-- vim.opt_global.shortmess:remove("F"):append("c")
 
 -- LSP
 map("n", "gD", "<cmd>lua vim.lsp.buf.definition()<CR>")
@@ -29,25 +28,27 @@ map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")
 map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
 map("n", "gds", "<cmd>lua vim.lsp.buf.document_symbol()<CR>")
 map("n", "gws", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>")
+map("n", "sh", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
 map("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>")
 map("n", "<leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>")
 map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
 map("n", "<leader>ws", '<cmd>lua require"metals".worksheet_hover()<CR>')
-map("n", "<leader>a", '<cmd>lua require"metals".open_all_diagnostics()<CR>')
-map("n", "<leader>d", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>") -- buffer diagnostics only
-map("n", "[c", "<cmd>lua vim.lsp.diagnostic.goto_prev { wrap = false }<CR>")
-map("n", "]c", "<cmd>lua vim.lsp.diagnostic.goto_next { wrap = false }<CR>")
+map("n", "<leader>tt", [[<cmd>lua require("metals.tvp").toggle_tree_view()<CR>]])
+map("n", "<leader>tr", [[<cmd>lua require("metals.tvp").reveal_in_tree()<CR>]])
+map("n", "<leader>cl", [[<cmd>lua vim.lsp.codelens.run()<CR>]])
+map("n", "<leader>st", [[<cmd>lua require("metals").toggle_setting("showImplicitArguments")<CR>]])
 
--- Example mappings for usage with nvim-dap. If you don't use that, you can
--- skip these
-map("n", "<leader>dc", [[<cmd>lua require"dap".continue()<CR>]])
-map("n", "<leader>dr", [[<cmd>lua require"dap".repl.toggle()<CR>]])
-map("n", "<leader>ds", [[<cmd>lua require"dap.ui.variables".scopes()<CR>]])
-map("n", "<leader>dK", [[<cmd>lua require"dap.ui.widgets".hover()<CR>]])
-map("n", "<leader>dt", [[<cmd>lua require"dap".toggle_breakpoint()<CR>]])
-map("n", "<leader>dso", [[<cmd>lua require"dap".step_over()<CR>]])
-map("n", "<leader>dsi", [[<cmd>lua require"dap".step_into()<CR>]])
-map("n", "<leader>dl", [[<cmd>lua require"dap".run_last()<CR>]])
+
+
+map("n", "<leader>aa", [[<cmd>lua vim.diagnostic.setqflist()<CR>]])
+map("n", "<leader>ae", [[<cmd>lua vim.diagnostic.setqflist({severity = "E"})<CR>]])
+map("n", "<leader>aw", [[<cmd>lua vim.diagnostic.setqflist({severity = "W"})<CR>]])
+map("n", "<leader>d", [[<cmd>lua vim.diagnostic.setloclist()<CR>]]) -- buffer diagnostics only
+map("n", "<leader>nd", [[<cmd>lua vim.diagnostic.goto_next()<CR>]])
+map("n", "<leader>pd", [[<cmd>lua vim.diagnostic.goto_prev()<CR>]])
+map("n", "<leader>ld", [[<cmd>lua vim.diagnostic.open_float(0, {scope = "line"})<CR>]])
+
+
 
 -- completion related settings
 -- This is similiar to what I use
@@ -109,20 +110,22 @@ metals_config = require("metals").bare_config()
 -- Example of settings
 metals_config.settings = {
   showImplicitArguments = true,
+  showInferredType = true,
   excludedPackages = { "akka.actor.typed.javadsl", "com.github.swagger.akka.javadsl" },
+  fallbackScalaVersion = "2.13.7",
+  serverVersion = "0.10.9+271-a8bb69f6-SNAPSHOT",
 }
 
+metals_config.init_options.statusBarProvider = "on"
 -- Example of how to ovewrite a handler
 metals_config.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
   virtual_text = { prefix = "" },
 })
 
--- *READ THIS*
--- I *highly* recommend setting statusBarProvider to true, however if you do,
--- you *have* to have a setting to display this in your statusline or else
--- you'll not see any messages from metals. There is more info in the help
--- docs about this
--- metals_config.init_options.statusBarProvider = "on"
+metals_config.on_attach = function(client, bufnr)
+    vim.cmd([[autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()]])
+    vim.cmd([[autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()]])
+    vim.cmd([[autocmd BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh()]])
 
 -- Example if you are including snippets
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -137,19 +140,11 @@ dap.configurations.scala = {
   {
       type = "scala",
       request = "launch",
-      name = "Run",
+      name = "RunOrTest",
       metals = {
-        runType = "run",
+        runType = "runOrTestFile",
       },
     },
-  {
-    type = "scala",
-    request = "launch",
-    name = "Test File",
-    metals = {
-      runType = "testFile",
-    },
-  },
   {
     type = "scala",
     request = "launch",
@@ -159,6 +154,16 @@ dap.configurations.scala = {
     },
   },
 }
+-- Example mappings for usage with nvim-dap. If you don't use that, you can
+-- skip these
+map("n", "<leader>dc", [[<cmd>lua require"dap".continue()<CR>]])
+map("n", "<leader>dr", [[<cmd>lua require"dap".repl.toggle()<CR>]])
+map("n", "<leader>ds", [[<cmd>lua require"dap.ui.variables".scopes()<CR>]])
+map("n", "<leader>dK", [[<cmd>lua require"dap.ui.widgets".hover()<CR>]])
+map("n", "<leader>dt", [[<cmd>lua require"dap".toggle_breakpoint()<CR>]])
+map("n", "<leader>dso", [[<cmd>lua require"dap".step_over()<CR>]])
+map("n", "<leader>dsi", [[<cmd>lua require"dap".step_into()<CR>]])
+map("n", "<leader>dl", [[<cmd>lua require"dap".run_last()<CR>]])
 
 metals_config.on_attach = function(client, bufnr)
   require("metals").setup_dap()
@@ -173,3 +178,4 @@ cmd([[hi! link LspReferenceWrite CursorColumn]])
 
 -- If you want a :Format command this is useful
 cmd([[command! Format lua vim.lsp.buf.formatting()]])
+end

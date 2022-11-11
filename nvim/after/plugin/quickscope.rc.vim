@@ -1,7 +1,11 @@
-let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
-"let g:qs_max_chars=150
+let g:qs_highlight_on_keys = ['f', 'F']
+let g:qs_max_chars=80
 let g:qs_enable=0
 let g:qs_hi_priority = 2
+let b:qs_local_disable=1
+let g:qs_lazy_highlight = 1
+"let g:qs_delay = 0
+
 
 augroup qs_colors
   autocmd!

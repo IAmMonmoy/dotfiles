@@ -1,13 +1,10 @@
-if has("vim")
-  let g:plug_home = stdpath('data') . '/plugged'
-endif
-
 call plug#begin()
 
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 
 if has("nvim")
+  Plug 'williamboman/nvim-lsp-installer'
   Plug 'neovim/nvim-lspconfig'
   Plug 'tami5/lspsaga.nvim', { 'branch': 'nvim51' }
   Plug 'folke/lsp-colors.nvim'
@@ -17,6 +14,10 @@ if has("nvim")
   Plug 'mfussenegger/nvim-dap'
   Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
   Plug 'scalameta/nvim-metals'
+
+
+  " Java
+  Plug 'mfussenegger/nvim-jdtls'
 
   Plug 'kyazdani42/nvim-web-devicons'
   Plug 'onsails/lspkind-nvim'
@@ -60,6 +61,8 @@ if has("nvim")
 "  Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 "  Plug 'folke/which-key.nvim'
 "  Plug 'mhinz/vim-startify'
+   Plug 'tpope/vim-obsession'
+   Plug 'lukas-reineke/indent-blankline.nvim'
 "  Typescript
   Plug 'jose-elias-alvarez/null-ls.nvim'
   Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
