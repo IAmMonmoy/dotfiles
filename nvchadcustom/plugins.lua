@@ -48,6 +48,10 @@ local plugins = {
   },
   {
     "mfussenegger/nvim-jdtls",
+    event = "BufEnter *.java",
+    config = function()
+      require("custom.configs.java")
+    end,
   },
   --
   -- To make a plugin not be loaded

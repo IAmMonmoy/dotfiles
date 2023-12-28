@@ -69,14 +69,8 @@ vim.list_extend(
 )
 
 local config = {
-  -- The command that starts the language server
-  -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
   cmd = {
-
-    -- 💀
-    "java", -- or '/path/to/java17_or_newer/bin/java'
-    -- depends on if `java` is in your $PATH env variable and if it points to the right version.
-
+    "java",
     "-Declipse.application=org.eclipse.jdt.ls.core.id1",
     "-Dosgi.bundles.defaultStartLevel=4",
     "-Declipse.product=org.eclipse.jdt.ls.core.product",
@@ -89,7 +83,6 @@ local config = {
     "java.base/java.util=ALL-UNNAMED",
     "--add-opens",
     "java.base/java.lang=ALL-UNNAMED",
-    -- 💀
     "-jar",
     vim.fn.glob(install_path .. "/plugins/org.eclipse.equinox.launcher_*.jar"),
     "-configuration",
@@ -137,7 +130,3 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.
 jdtls.start_or_attach(config)
-
-vim.cmd(
-	[[command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_set_runtime JdtSetRuntime lua require('jdtls').set_runtime(<f-args>)]]
-)
