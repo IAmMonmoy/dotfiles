@@ -127,6 +127,8 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
     local _, _ = pcall(vim.lsp.codelens.refresh)
   end,
 })
+
+print("Rajob: testing testing")
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.
 jdtls.start_or_attach(config)

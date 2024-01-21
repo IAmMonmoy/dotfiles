@@ -48,10 +48,29 @@ local plugins = {
   },
   {
     "mfussenegger/nvim-jdtls",
+    init = function()
+      require("core.utils").lazy_load "go.nvim"
+    end,
     event = "BufEnter *.java",
     config = function()
-      require("custom.configs.java")
+      require "custom.configs.java"
     end,
+  },
+  {
+    "ray-x/go.nvim",
+    init = function()
+      require("core.utils").lazy_load "go.nvim"
+    end,
+    event = "CmdlineEnter",
+    dependencies = { -- optional packages
+      "ray-x/guihua.lua",
+      "neovim/nvim-lspconfig",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require "custom.configs.go"
+    end,
+    ft = { "go", "gomod" },
   },
   --
   -- To make a plugin not be loaded
