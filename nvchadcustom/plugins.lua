@@ -48,10 +48,7 @@ local plugins = {
   },
   {
     "mfussenegger/nvim-jdtls",
-    init = function()
-      require("core.utils").lazy_load "go.nvim"
-    end,
-    event = "BufEnter *.java",
+    event = "CmdlineEnter",
     config = function()
       require "custom.configs.java"
     end,

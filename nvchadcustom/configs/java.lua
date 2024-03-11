@@ -1,50 +1,29 @@
-local function directory_exists(path)
-  local f = io.popen("cd " .. path)
-  local ff = f:read "*all"
-
-  if ff:find "ItemNotFoundException" then
-    return false
-  else
-    return true
-  end
-end
-
-local function capabilities()
-  local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-  if status_ok then
-    return cmp_nvim_lsp.default_capabilities()
-  end
-
-  local capability = vim.lsp.protocol.make_client_capabilities()
-  capability.textDocument.completion.completionItem.snippetSupport = true
-  capability.textDocument.completion.completionItem.resolveSupport = {
-    properties = {
-      "documentation",
-      "detail",
-      "additionalTextEdits",
-    },
-  }
-
-  return capability
-end
-
-local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
-
--- local workspace_dir = '/opt/appimage/' .. project_name
-local workspace_dir = vim.fn.stdpath "data" .. "/site/java/workspace-root/" .. project_name
-
-if directory_exists(workspace_dir) then
-else
-  os.execute("mkdir " .. workspace_dir)
-end
-
 local status, jdtls = pcall(require, "jdtls")
 if not status then
   return
 end
+local common = require("custom.configs.common")
+
+-- Setup Capabilities
+local capabilities =  common.common_capabilities()
+local extendedClientCapabilities = jdtls.extendedClientCapabilities
+extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
+
+local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+
+print("Rajob project name" .. project_name)
+
+-- local workspace_dir = '/opt/appimage/' .. project_name
+local workspace_dir = vim.fn.stdpath "data" .. "/site/java/workspace-root/" .. project_name
+
+print("Rajob workspace_dir" .. project_name)
+
+common.directory_exists(workspace_dir)
 
 -- get the mason install path
 local install_path = require("mason-registry").get_package("jdtls"):get_install_path()
+
+print("Rajob install path" .. install_path)
 
 local os
 if vim.fn.has "macunix" then
@@ -55,18 +34,15 @@ else
   os = "linux"
 end
 
+print("Rajob" .. os)
+
 local bundles = {}
 
 local mason_path = vim.fn.glob(vim.fn.stdpath "data" .. "/mason/")
-vim.list_extend(bundles, vim.split(vim.fn.glob(mason_path .. "packages/java-test/extension/server/*.jar"), "\n"))
 
-vim.list_extend(
-  bundles,
-  vim.split(
-    vim.fn.glob(mason_path .. "packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar"),
-    "\n"
-  )
-)
+print("Rajob mason path" .. mason_path)
+
+vim.list_extend(bundles, vim.split(vim.fn.glob(mason_path .. "packages/java-test/extension/server/*.jar"), "\n"))
 
 local config = {
   cmd = {
@@ -90,7 +66,7 @@ local config = {
     "-data",
     workspace_dir,
   },
-  capabilities = capabilities(),
+  capabilities = capabilities,
 
   -- 💀
   -- This is the default if not provided, you can remove it. Or adjust as needed.
@@ -101,23 +77,60 @@ local config = {
   -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
   -- for a list of options
   settings = {
-    java = {},
+    java = {
+      eclipse = {
+        downloadSources = true,
+      },
+      configuration = {
+        updateBuildConfiguration = "interactive",
+        runtimes = {
+          {
+            name = "JavaSE-11",
+            path = "~/.sdkman/candidates/java/11.0.22-amzn",
+          },
+          {
+
+            name = "JavaSE-21",
+            path = "~/.sdkman/candidates/java/21.0.1-graal",
+          },
+        },
+      },
+      maven = {
+        downloadSources = true,
+      },
+      implementationsCodeLens = {
+        enabled = true,
+      },
+
+      referencesCodeLens = {
+        enabled = true,
+      },
+
+      references = {
+
+        includeDecompiledSources = true,
+      },
+      inlayHints = {
+        parameterNames = {
+          enabled = "all", -- literals, all, none
+        },
+      },
+      format = {
+        enabled = false,
+      },
+    },
+    signatureHelp = { enabled = true },
+    extendedClientCapabilities = extendedClientCapabilities,
   },
 
   init_options = {
     bundles = {
-      vim.fn.glob(
-        mason_path .. "packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar",
-        "\n"
-      ),
     },
   },
 }
 
 config["on_attach"] = function(client, bufnr)
   local _, _ = pcall(vim.lsp.codelens.refresh)
-  require("jdtls.dap").setup_dap_main_class_configs()
-  jdtls.setup_dap { hotcodereplace = "auto" }
   require("user.lsp.handlers").on_attach(client, bufnr)
 end
 
@@ -128,7 +141,7 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
   end,
 })
 
-print("Rajob: testing testing")
+print "Rajob: testing testing"
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.
 jdtls.start_or_attach(config)

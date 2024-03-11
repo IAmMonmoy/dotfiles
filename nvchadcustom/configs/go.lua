@@ -8,7 +8,5 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   group = format_sync_grp,
 })
 
-print("RAJOB: go called")
-
 require("go").setup()
 
