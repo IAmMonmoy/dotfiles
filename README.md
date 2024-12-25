@@ -1,3 +1,5 @@
+sudo nixos-rebuild switch --upgrade
+
 # dotfiles
 ### Dotfiles for my development environment
 ### neovim configured for scala development
