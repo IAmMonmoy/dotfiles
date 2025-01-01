@@ -41,5 +41,19 @@
       })
       EOF
     '';
+
+    extraLuaConfig = ''
+      -- Load LazyVim configuration
+      require("lazyvim.config").setup({})
+      
+      -- Configure mini.comment
+      require("mini.comment").setup({
+        mappings = {
+          comment = 'gc',
+          comment_line = 'gcc',
+          textobject = 'gc',
+        },
+      })
+    '';
   };
 }

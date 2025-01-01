@@ -2,8 +2,10 @@
 
 {
 	imports = [
+    ./fish.nix
     ./git.nix
     ./nvim.nix
+    ./tmux.nix
 	];
 
   home = {
@@ -29,6 +31,7 @@
       fish
       ghq
       peco
+      eza
       tree-sitter 
 
       #Languages related
