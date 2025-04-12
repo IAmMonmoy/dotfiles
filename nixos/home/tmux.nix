@@ -12,7 +12,7 @@
     extraConfig = ''
       # Enable mouse control
       set -g mouse on
-      set -g default-shell /etc/profiles/per-user/nixos/bin/fish
+      set -g default-shell /home/rajob/.nix-profile/bin/fish
     '';
     
     plugins = with pkgs.tmuxPlugins; [

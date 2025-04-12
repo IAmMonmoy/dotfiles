@@ -10,7 +10,6 @@
 
     interactiveShellInit = ''
       set fish_greeting # Disable greeting
-      fish_vi_key_bindings # Use vim key bindings
       bind \cr peco_select_history # Bind for peco select history to Ctrl+R
       bind \cf peco_change_directory # Bind for peco change directory to Ctrl+F
     '';
@@ -47,9 +46,10 @@
         else
       commandline '''
         end
-      end '';
+      '';
 
       peco_change_directory = ''
+        echo "Rajob"
         begin
           echo $HOME/.config
           ghq list -p

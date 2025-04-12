@@ -1,33 +1,33 @@
 {
+  description = "Home Manager configuration";
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, nixpkgs, nixos-wsl, home-manager, ... }: {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+  outputs = { self, nixpkgs, home-manager, ... }:
+    let
       system = "x86_64-linux";
-      modules = [
-        ./configuration.nix
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
+      homeConfigurations."rajob" = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        
+        modules = [ ./home.nix ];
+      };
 
-        nixos-wsl.nixosModules.default
-        {
-          system.stateVersion = "24.05";
-          wsl.enable = true;
-        }
-
-        home-manager.nixosModules.home-manager
-        {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-
-            home-manager.users.nixos = import ./home;
-        }
-      ];
+      # Add this devShell configuration
+      devShells.${system}.default = pkgs.mkShell {
+        buildInputs = with pkgs; [
+          git
+          go
+          ghq
+          peco
+        ];
+      };
     };
-  };
 }
