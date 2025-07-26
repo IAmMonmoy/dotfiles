@@ -38,6 +38,9 @@
       require("lazy").setup({
         { "LazyVim/LazyVim", import = "lazyvim.plugins" },
         -- your plugins
+         { import = "lazyvim.plugins.extras.lang.java" },
+         { import = "lazyvim.plugins.extras.lang.go" },
+        { "catppuccin/nvim", name = "catppuccin", priority = 1000 }
       })
       EOF
     '';
@@ -45,15 +48,9 @@
     extraLuaConfig = ''
       -- Load LazyVim configuration
       require("lazyvim.config").setup({})
-      
-      -- Configure mini.comment
-      require("mini.comment").setup({
-        mappings = {
-          comment = 'gc',
-          comment_line = 'gcc',
-          textobject = 'gc',
-        },
-      })
+
+      -- Set colorscheme
+      vim.cmd.colorscheme "catppuccin-mocha"
     '';
   };
 }

@@ -16,6 +16,7 @@
 	    # archives
 	    zip
 	    unzip
+      wget
 
 	    # utils
 	    jq # A lightweight and flexible command-line JSON processor
@@ -37,7 +38,7 @@
       #Languages related
       libgcc
       gcc
-      jdk21
+      jdk23
       go
       rustc
       nodejs
@@ -50,6 +51,10 @@
 
       #cloud
       google-cloud-sdk
+        
+      #containers
+      containerd
+      nerdctl
 	  ];
 
 	  stateVersion = "23.11";
