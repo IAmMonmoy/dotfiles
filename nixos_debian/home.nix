@@ -43,6 +43,8 @@
       rustc
       nodejs
       python3
+      python313Packages.jupyterlab
+      python313Packages.ipykernel
 
       #nvim related
       luajit
