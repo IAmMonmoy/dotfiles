@@ -6,6 +6,7 @@
     ./home/git.nix
     ./home/nvim.nix
     ./home/tmux.nix
+    ./home/python.nix
 	];
 
   home = {
@@ -42,9 +43,6 @@
       go
       rustc
       nodejs
-      python3
-      python313Packages.jupyterlab
-      python313Packages.ipykernel
 
       #nvim related
       luajit
