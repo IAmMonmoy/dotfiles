@@ -42,7 +42,7 @@
       #Languages related
       libgcc
       gcc
-      jdk23
+      jdk21
       go
       rustc
       nodejs

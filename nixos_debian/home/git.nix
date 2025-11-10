@@ -1,22 +1,20 @@
 {
   pkgs,
-
   ...
-
 }: {
   home.packages = [pkgs.gh];
-
+  
   programs.git = {
     enable = true;
-
-    userName = "IAmMonmoy";
-    userEmail = "rajob.raihan@outlook.com";
-
-    extraConfig = {
+    
+    settings = {
+      user.name = "IAmMonmoy";
+      user.email = "rajob.raihan@outlook.com";
+      
       ghq = {
         root = "~/ghq";
       };
-
+      
       url = {
         "git@github.com:" = {
           insteadOf = "https://github.com/";
