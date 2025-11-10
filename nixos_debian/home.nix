@@ -35,6 +35,9 @@
       peco
       eza
       tree-sitter 
+      helix
+      bat
+      glow
 
       #Languages related
       libgcc
