@@ -43,6 +43,7 @@
       libgcc
       gcc
       jdk21
+      maven
       go
       rustc
       nodejs

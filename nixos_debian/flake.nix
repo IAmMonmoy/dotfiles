@@ -16,7 +16,7 @@
     in {
       homeConfigurations."rajob" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        
+
         modules = [ ./home.nix ];
       };
 
