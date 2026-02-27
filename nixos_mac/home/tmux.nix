@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   ...
 }: {
@@ -8,13 +9,13 @@
     enable = true;
     terminal = "screen-256color";
     clock24 = true;
-    
+
     extraConfig = ''
       # Enable mouse control
       set -g mouse on
-      set -g default-shell /home/rajob/.nix-profile/bin/fish
+      set -g default-shell ${pkgs.fish}/bin/fish
     '';
-    
+
     plugins = with pkgs.tmuxPlugins; [
       sensible
       yank
@@ -28,4 +29,10 @@
       }
     ];
   };
+
+  programs.fish.interactiveShellInit = lib.mkAfter ''
+    if status is-interactive; and not set -q TMUX; and command -q tmux
+      exec tmux new-session -A -s main
+    end
+  '';
 }

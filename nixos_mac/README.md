@@ -15,6 +15,11 @@ This repository contains Nix configuration files for setting up a development en
    echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
    ```
 
+3. **Install Home Manager** (if not already installed):
+   ```bash
+   nix profile add nixpkgs#home-manager
+   ```
+
 ## Installation
 
 1. Clone this repository:
@@ -25,26 +30,34 @@ This repository contains Nix configuration files for setting up a development en
 
 2. Build and activate the Home Manager configuration:
    ```bash
-   nix run home-manager/master -- switch --flake .#rajob
+   home-manager switch --flake /Users/rajobraihan/dotfiles/nixos_mac#rajobraihan
    ```
 
-## What's Included
+## Maintenance
 
-### Development Tools
-- **Languages**: Go, Rust, Node.js, Python 3, Java (JDK 23), Clang
-- **Build Tools**: gnumake, luajit, luarocks
-- **Version Control**: git, lazygit, ghq
+### Nix Store Maintenance
 
-### Command Line Utilities
-- **File Management**: eza (modern ls), tree-sitter, zip/unzip
-- **Text Processing**: jq, fzf, peco
-- **System Monitoring**: btop
-- **Network**: wget, curl
+1. **Run Garbage Collection**
+   Periodically clean up unused packages to free up disk space:
+   ```bash
+   nix-collect-garbage
+   ```
+   - Use `nix-collect-garbage -d` to also delete old generations of your profile
+   - Run this when you want to free up disk space or after major updates
 
-### Shell and Terminal
-- **Shell**: Fish shell with custom configuration
-- **Terminal Multiplexer**: tmux with custom configuration
-- **Editor**: Neovim with custom configuration
+2. **Optimize Nix Store**
+   After garbage collection, optimize the store to reduce disk usage:
+   ```bash
+   nix-store --optimise
+   ```
+   - This deduplicates identical files in the Nix store
+   - Particularly useful after installing/removing many packages
+
+3. **When to Run**
+   - After major system updates
+   - When you notice significant disk space usage by Nix
+   - Before creating system backups
+   - Periodically (e.g., once a month)
 
 ## Configuration Files
 
@@ -66,6 +79,21 @@ After making changes to any configuration files:
 home-manager switch --flake .#rajob
 ```
 
+### Roll Back to the Last Configuration
+
+If a new activation causes issues, switch back to the previous Home Manager generation:
+
+```bash
+home-manager generations
+home-manager switch --switch-generation -1
+```
+
+To roll back to a specific generation, use its generation number from `home-manager generations`:
+
+```bash
+home-manager switch --switch-generation <generation-number>
+```
+
 ### Development Shell
 
 To enter a development shell with additional tools:
@@ -74,14 +102,6 @@ To enter a development shell with additional tools:
 nix develop
 ```
 
-### Architecture Support
-
-This configuration supports both:
-- Intel Macs (`x86_64-darwin`)
-- Apple Silicon Macs (`aarch64-darwin`)
-
-The appropriate packages will be selected automatically based on your system architecture.
-
 ## Customization
 
 1. **Username**: Update the username in `home.nix` and `flake.nix` if different from "rajob"
@@ -89,65 +109,6 @@ The appropriate packages will be selected automatically based on your system arc
 3. **Packages**: Add or remove packages in the `home.packages` section of `home.nix`
 4. **Shell Configuration**: Modify `home/fish.nix` for Fish shell customizations
 5. **Editor Configuration**: Modify `home/nvim.nix` for Neovim customizations
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Permission Errors**: Make sure Nix has the necessary permissions and try running with `sudo` if needed
-2. **Architecture Mismatch**: The flake automatically detects your system architecture
-3. **Package Not Found**: Some packages might not be available on macOS - check nixpkgs for alternatives
-
-## Installation
-
-### Prerequisites
-
-1. **macOS**: Tested on macOS 14.0+ (Sonoma)
-2. **Xcode Command Line Tools**: Required for development
-   ```bash
-   xcode-select --install
-   ```
-3. **Nix Package Manager**: Required for package management
-   ```bash
-   sh <(curl -L https://nixos.org/nix/install) --daemon
-   ```
-   Restart your shell or run:
-   ```bash
-   . ~/.nix-profile/etc/profile.d/nix.sh
-   ```
-
-### Quick Start
-
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/yourusername/dotfiles.git ~/dotfiles
-   cd ~/dotfiles/nixos_mac
-   ```
-
-2. Run the installation script:
-   ```bash
-   chmod +x install.sh
-   ./install.sh
-   ```
-
-3. Restart your terminal or source the new configuration:
-   ```bash
-   source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-   ```
-
-## Managing Packages
-
-### Adding New Packages
-
-1. Edit `home.nix` and add packages to the `home.packages` list
-2. Apply changes:
-   ```bash
-   nix run .#defaultPackage.aarch64-darwin
-   ```
-   or for Intel Macs:
-   ```bash
-   nix run .#defaultPackage.x86_64-darwin
-   ```
 
 ### Updating Packages
 
@@ -172,31 +133,6 @@ Enter a development environment with all tools:
 ```bash
 nix develop
 ```
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Command Not Found**
-   - Ensure you've sourced the Nix environment:
-     ```bash
-     . ~/.nix-profile/etc/profile.d/nix.sh
-     ```
-
-2. **Permission Errors**
-   - Make sure your user has write permissions to the Nix store:
-     ```bash
-     sudo chown -R $(whoami) /nix
-     ```
-
-3. **Broken Packages**
-   - Try cleaning the Nix store:
-     ```bash
-     nix-collect-garbage -d
-     nix-store --optimise
-     ```
-
-## Migration from Linux/WSL
 
 This configuration has been updated from a Linux/WSL setup with the following key changes:
 

@@ -45,7 +45,7 @@
       EOF
     '';
 
-    extraLuaConfig = ''
+    initLua = ''
       -- Load LazyVim configuration
       require("lazyvim.config").setup({})
 

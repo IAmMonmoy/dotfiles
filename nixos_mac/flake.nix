@@ -13,15 +13,21 @@
     let
       system = "aarch64-darwin";  # or "x86_64-darwin" for Intel Macs
       username = "rajobraihan";
-      
+
       pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
       };
-      
-      homeConfiguration = home-manager.lib.homeManagerConfiguration {
+
+      commonPackages = import ./home/common_packages.nix { inherit pkgs; };
+
+      lib = nixpkgs.lib;
+
+    in {
+      homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        
+
+        # Specify the path to your home configuration here
         modules = [
           {
             home = {
@@ -33,25 +39,46 @@
           ./home.nix
         ];
       };
-      
-    in {
-      # Build the home configuration directly
-      defaultPackage.${system} = homeConfiguration.activationPackage;
-      
+
+      # This makes the home-manager package available through the flake
+      packages.${system}.default = home-manager.packages.${system}.default;
+
       # For `nix run`
       apps.${system}.default = {
         type = "app";
-        program = "${homeConfiguration.activationPackage}/activate";
+        program = "${self.homeConfigurations.${username}.activationPackage}/activate";
       };
-      
+
       # For development environment
       devShells.${system}.default = pkgs.mkShell {
-        buildInputs = with pkgs; [
+        buildInputs = commonPackages ++ (with pkgs; [
           git
-          go
-          ghq
-          peco
-        ];
+          perl
+          findutils
+          gnused
+          coreutils
+          nixpkgs-fmt
+          rnix-lsp
+        ]);
+
+        # Set up the environment
+        shellHook = ''
+          # Add Nix profile binaries to PATH
+          export PATH=$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$PATH
+
+          # Ensure fish is in /etc/shells
+          if ! grep -q "${pkgs.fish}/bin/fish" /etc/shells; then
+            echo "${pkgs.fish}/bin/fish" | sudo tee -a /etc/shells
+          fi
+
+          # Set default shell to fish if not already set
+          if [ "$SHELL" != "${pkgs.fish}/bin/fish" ]; then
+            chsh -s ${pkgs.fish}/bin/fish
+          fi
+        '';
       };
+
+      # Legacy output for compatibility
+      defaultPackage.${system} = self.homeConfigurations.${username}.activationPackage;
     };
 }

@@ -71,9 +71,18 @@ fi
 # Install Home Manager and apply configuration
 echo "🏠 Installing Home Manager and applying configuration..."
 
+# Check if Home Manager is installed
+if ! command -v home-manager &> /dev/null; then
+    echo "🏠 Home Manager will be installed as part of the flake configuration."
+    HM_INSTALLED=false
+else
+    echo "✅ Home Manager is already installed."
+    HM_INSTALLED=true
+fi
+
 # First, let's try to build the configuration to check for any issues
 echo "🔍 Testing configuration build..."
-if nix build ".#homeConfigurations.$USERNAME" --no-link; then
+if nix build ".#$USERNAME"; then
     echo "✅ Configuration builds successfully."
 else
     echo "❌ Configuration build failed. Please check your configuration files."
@@ -82,7 +91,7 @@ fi
 
 # Apply the Home Manager configuration
 echo "🚀 Applying Home Manager configuration..."
-nix run home-manager/master -- switch --flake ".#$USERNAME"
+nix run github:nix-community/home-manager#home-manager -- switch --flake ".#$USERNAME"
 
 echo ""
 echo "🎉 Installation complete!"

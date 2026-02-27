@@ -9,10 +9,12 @@
   programs.git = {
     enable = true;
 
-    userName = "IAmMonmoy";
-    userEmail = "rajob.raihan@outlook.com";
+    settings = {
+      user = {
+        name = "IAmMonmoy";
+        email = "rajob.raihan@outlook.com";
+      };
 
-    extraConfig = {
       ghq = {
         root = "~/ghq";
       };
@@ -22,7 +24,7 @@
           insteadOf = "https://github.com/";
         };
       };
-      
+
       core = {
         sshCommand = "ssh -i ~/.ssh/id_ed25519";
       };
