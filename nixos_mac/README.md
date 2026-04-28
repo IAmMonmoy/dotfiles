@@ -67,6 +67,8 @@ This repository contains Nix configuration files for setting up a development en
   - `fish.nix` - Fish shell configuration
   - `git.nix` - Git configuration
   - `nvim.nix` - Neovim configuration
+  - `java.nix` - Java toolchain with JDK, Maven, Gradle, and Java development tools
+  - `python.nix` - Python development tools
   - `tmux.nix` - Tmux configuration
 
 ## Usage

@@ -1,20 +1,21 @@
 { config, pkgs, ... }:
 
 {
-	imports = [
+  imports = [
     ./home/fish.nix
     ./home/git.nix
     ./home/nvim.nix
     ./home/tmux.nix
     ./home/python.nix
-	];
+    ./home/java.nix
+  ];
 
   home = {
-	  username = "rajobraihan";
-	  homeDirectory = "/Users/rajobraihan";
+    username = "rajobraihan";
+    homeDirectory = "/Users/rajobraihan";
 
-	  packages = import ./home/common_packages.nix { inherit pkgs; };
+    packages = import ./home/common_packages.nix { inherit pkgs; };
 
-	  stateVersion = "23.11";
+    stateVersion = "23.11";
   };
 }

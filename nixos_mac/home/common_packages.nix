@@ -11,7 +11,9 @@ with pkgs; [
   eza
   fzf
   curl
+  ripgrep
   gnumake
+  nixpkgs-fmt
   luajitPackages.fzf-lua
 
   # productivity
@@ -24,7 +26,6 @@ with pkgs; [
 
   # languages
   clang
-  jdk25_headless
   go
   rustc
   nodejs
