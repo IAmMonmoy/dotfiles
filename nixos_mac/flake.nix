@@ -14,7 +14,7 @@
       system = "aarch64-darwin"; # or "x86_64-darwin" for Intel Macs
       username = "rajobraihan";
       homeDirectory = "/Users/${username}";
-      stateVersion = "23.11";
+      stateVersion = "26.05";
 
       pkgs = import nixpkgs {
         inherit system;

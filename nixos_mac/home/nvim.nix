@@ -7,8 +7,8 @@
     enable = true;
     defaultEditor = true;
     package = pkgs.neovim-unwrapped;
-    withPython3 = true;
-    withRuby = true;
+    withPython3 = false;
+    withRuby = false;
 
     extraPackages = with pkgs; [
       ripgrep

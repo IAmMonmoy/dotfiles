@@ -7,7 +7,7 @@
   programs.git = {
     enable = true;
 
-    signing.format = "openpgp";
+    signing.format = null;
 
     settings = {
       user = {

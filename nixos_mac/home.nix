@@ -20,4 +20,6 @@
 
     packages = import ./home/common_packages.nix { inherit pkgs; };
   };
+
+  programs.man.generateCaches = false;
 }
