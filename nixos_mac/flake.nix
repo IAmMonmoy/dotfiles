@@ -11,8 +11,10 @@
 
   outputs = { self, nixpkgs, home-manager, ... } @ inputs:
     let
-      system = "aarch64-darwin";  # or "x86_64-darwin" for Intel Macs
+      system = "aarch64-darwin"; # or "x86_64-darwin" for Intel Macs
       username = "rajobraihan";
+      homeDirectory = "/Users/${username}";
+      stateVersion = "23.11";
 
       pkgs = import nixpkgs {
         inherit system;
@@ -21,21 +23,16 @@
 
       commonPackages = import ./home/common_packages.nix { inherit pkgs; };
 
-      lib = nixpkgs.lib;
-
-    in {
+    in
+    {
       homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
+        extraSpecialArgs = {
+          inherit username homeDirectory stateVersion;
+        };
 
         # Specify the path to your home configuration here
         modules = [
-          {
-            home = {
-              inherit username;
-              homeDirectory = "/Users/${username}";
-              stateVersion = "23.11";
-            };
-          }
           ./home.nix
         ];
       };
@@ -58,7 +55,7 @@
           gnused
           coreutils
           nixpkgs-fmt
-          rnix-lsp
+          nixd
         ]);
 
         # Set up the environment

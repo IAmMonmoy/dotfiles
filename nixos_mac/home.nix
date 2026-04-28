@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{ pkgs
+, username
+, homeDirectory
+, stateVersion
+, ...
+}:
 
 {
   imports = [
@@ -11,11 +16,8 @@
   ];
 
   home = {
-    username = "rajobraihan";
-    homeDirectory = "/Users/rajobraihan";
+    inherit username homeDirectory stateVersion;
 
     packages = import ./home/common_packages.nix { inherit pkgs; };
-
-    stateVersion = "23.11";
   };
 }

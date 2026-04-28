@@ -1,13 +1,14 @@
-{
-  pkgs,
-  ...
+{ pkgs
+, ...
 }: {
-  home.packages = [pkgs.gh];
+  home.packages = [ pkgs.gh ];
 
   programs.neovim = {
     enable = true;
     defaultEditor = true;
     package = pkgs.neovim-unwrapped;
+    withPython3 = true;
+    withRuby = true;
 
     extraPackages = with pkgs; [
       ripgrep
@@ -18,7 +19,7 @@
       tree-sitter
     ];
 
-     extraConfig = ''
+    extraConfig = ''
       lua << EOF
       -- bootstrap lazy.nvim
       local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"

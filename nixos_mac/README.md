@@ -77,8 +77,30 @@ This repository contains Nix configuration files for setting up a development en
 
 After making changes to any configuration files:
 
+1. Format the Nix files:
+   ```bash
+   nix run nixpkgs#nixpkgs-fmt -- home.nix flake.nix configuration.nix home/*.nix
+   ```
+
+2. Evaluate the Home Manager activation package:
+   ```bash
+   nix eval .#homeConfigurations.rajobraihan.activationPackage.drvPath
+   ```
+
+3. Check what would be built or fetched without activating:
+   ```bash
+   nix build .#homeConfigurations.rajobraihan.activationPackage --dry-run
+   ```
+
+4. Activate the configuration:
+   ```bash
+   home-manager switch --flake .#rajobraihan
+   ```
+
+If you add a new file that is imported by the flake, make sure Git can see it before evaluating:
+
 ```bash
-home-manager switch --flake .#rajob
+git add <new-file>
 ```
 
 ### Roll Back to the Last Configuration
@@ -121,12 +143,15 @@ nix develop
 
 2. Rebuild your configuration:
    ```bash
-   nix run .#defaultPackage.aarch64-darwin
+   nix run nixpkgs#nixpkgs-fmt -- home.nix flake.nix configuration.nix home/*.nix
+   nix eval .#homeConfigurations.rajobraihan.activationPackage.drvPath
+   nix build .#homeConfigurations.rajobraihan.activationPackage --dry-run
+   home-manager switch --flake .#rajobraihan
    ```
 
 3. To update a specific input (e.g., nixpkgs):
    ```bash
-   nix flake lock --update-input nixpkgs
+   nix flake update nixpkgs
    ```
 
 ### Development Shell

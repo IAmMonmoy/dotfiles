@@ -1,16 +1,15 @@
-{
-  pkgs,
-  ...
+{ pkgs
+, ...
 }: {
   # Ensure all required packages are installed
   home.packages = with pkgs; [
     fish
     gh
     peco
-    perl  # Required for peco directory changing
-    findutils  # For find command
-    gnused  # For sed in fish history
-    coreutils  # For sort and other core utilities
+    perl # Required for peco directory changing
+    findutils # For find command
+    gnused # For sed in fish history
+    coreutils # For sort and other core utilities
   ];
 
   # Configure Fish shell
@@ -115,7 +114,7 @@
   # If macOS still launches zsh, hand off to fish for interactive sessions.
   programs.zsh = {
     enable = true;
-    initExtra = ''
+    initContent = ''
       if [[ -o interactive ]] && command -v fish >/dev/null 2>&1; then
         exec fish
       fi
