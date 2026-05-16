@@ -30,6 +30,10 @@ with pkgs; [
   rustc
   nodejs
 
+  # IDEs
+  jetbrains.clion
+  jetbrains.idea-oss
+
   # nvim
   luajit
   luarocks

@@ -18,7 +18,12 @@
 
       pkgs = import nixpkgs {
         inherit system;
-        config.allowUnfree = true;
+        config = {
+          allowUnfree = true;
+          problems.handlers = {
+            jetbrains-jdk.broken = "warn";
+          };
+        };
       };
 
       commonPackages = import ./home/common_packages.nix { inherit pkgs; };
