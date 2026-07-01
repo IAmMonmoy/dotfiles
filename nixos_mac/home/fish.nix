@@ -27,8 +27,21 @@
         chsh -s ${pkgs.fish}/bin/fish
       end
 
-      # Ensure Nix paths are in PATH
-      set -gx PATH $HOME/.nix-profile/bin /nix/var/nix/profiles/default/bin $PATH
+      # Ensure Nix and Home Manager packages are available in every Fish shell.
+      for profile_bin in \
+        $HOME/.nix-profile/bin \
+        $HOME/.local/state/nix/profile/bin \
+        /etc/profiles/per-user/$USER/bin \
+        /nix/var/nix/profiles/default/bin \
+        /run/current-system/sw/bin
+        if test -d $profile_bin
+          fish_add_path --path --move $profile_bin
+        end
+      end
+
+      # Let Cargo's linker find libiconv when using Nix-provided clang on macOS.
+      set -gx LIBRARY_PATH ${pkgs.libiconv}/lib $LIBRARY_PATH
+      set -gx CPATH ${pkgs.libiconv}/include $CPATH
     '';
 
     interactiveShellInit = ''
@@ -41,6 +54,7 @@
       ".." = "cd ..";
       "..." = "cd ../..";
       v = "nvim";
+      zed = "zeditor";
     };
 
     functions = {

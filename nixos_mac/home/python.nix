@@ -2,9 +2,6 @@
 
 {
   home.packages = [
-    (pkgs.python3.withPackages (ps: with ps; [
-      notebook
-      langchain
-    ]))
+    (pkgs.python3.withPackages (import ./pip_packages.nix))
   ];
 }
